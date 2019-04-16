@@ -1,8 +1,32 @@
 import sys
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sqlalchemy import create_engine
 
 
 def load_data(messages_filepath, categories_filepath):
-    pass
+    """Load and merge messages and categories datasets
+    
+    Args:
+    messages_filepath: string, Filepath for csv file containing messages dataset.
+    categories_filepath: string, Filepath for csv file containing categories dataset.
+       
+    Returns:
+    df: dataframe, Dataframe containing merged content of messages and categories datasets.
+    """
+
+    # load messages dataset
+	messages = pd.read_csv(messages_filepath)
+
+    # Load categories dataset
+    categories = pd.read_csv(categories_filepath)
+
+    # merge datasets
+	df = messages.merge(categories, how='inner', on='id')
+
+	return df
 
 
 def clean_data(df):
