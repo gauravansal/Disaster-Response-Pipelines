@@ -86,7 +86,18 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
-    pass  
+    """Save cleaned data into an SQLite database.
+    
+    Args:
+    df: dataframe, Dataframe containing cleaned version of merged message and 
+    categories data.
+    database_filename: string, Filename for output database.
+       
+    Returns:
+    None
+    """ 
+	engine = create_engine('sqlite:///' + database_filename)
+	df.to_sql('messages_categories', engine, if_exists='replace', index=False)
 
 
 def main():
