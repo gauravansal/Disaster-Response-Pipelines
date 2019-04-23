@@ -1,0 +1,4 @@
+# Filepath of pickle file
+models/*.sav
+models/*.p
+models/*.bz2
