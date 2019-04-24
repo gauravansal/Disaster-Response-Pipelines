@@ -73,8 +73,12 @@ def index():
     
     # extract data needed for visuals
     # TODO: Below is an example - modify to extract data for your own visuals
-    genre_counts = df.groupby('genre').count()['message']
-    genre_names = list(genre_counts.index)
+    genre_counts = [df[(df['genre_news']== 1) & (df['genre_social']== 0)]['message'].count(),
+                    df[(df['genre_news']== 0) & (df['genre_social']== 0)]['message'].count(),
+                    df[(df['genre_news']== 0) & (df['genre_social']== 0)]['message'].count()]
+    # Assigning genre names directly as genre feature was encoded as dummy variable in ETL pipeline
+    # genre 'direct' count is retrieved by df[(df['genre_news']== 0) & (df['genre_social']== 0)]['message'].count()
+    genre_names = [news, social, direct]
     
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
