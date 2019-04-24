@@ -14,16 +14,49 @@ from sqlalchemy import create_engine
 
 app = Flask(__name__)
 
+# Define function tokenize to normalize, tokenize and lemmatize text string
 def tokenize(text):
+    """Normalize, tokenize and lemmatize text string
+    
+    Args:
+    text: string, String containing message for processing
+       
+    Returns:
+    clean_tokens: list, List containing normalized and lemmatized word tokens
+    """
+
+    # Replace URL links in text string with string 'urlplaceholder'
+    url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+    detected_urls = re.findall(url_regex, text)
+    for url in detected_urls:
+        text = text.replace(url, "urlplaceholder")
+    
+    # Substitute characters in text string which match regular expression r'[^a-zA-Z0-9]'
+    # with single whitespace
+    text = re.sub(r'[^a-zA-Z0-9]', ' ', text)
+    
+    # Get word tokens from text string
     tokens = word_tokenize(text)
+    
+    # Instantiate WordNetLemmatizer
     lemmatizer = WordNetLemmatizer()
 
+    # Get stop words in 'English' language
+    stop_words = stopwords.words("english")
+
+    # Clean tokens
     clean_tokens = []
     for tok in tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
+        # convert token to lowercase as stop words are in lowercase
+        tok_low = tok.lower() 
+        if tok_low not in stop_words:
+            # Lemmatize token and remove the leading and trailing spaces from lemmatized token
+            clean_tok = lemmatizer.lemmatize(tok_low).lower().strip()
+            clean_tokens.append(clean_tok)
 
     return clean_tokens
+
+
 
 # load data
 engine = create_engine('sqlite:///../data/YourDatabaseName.db')
