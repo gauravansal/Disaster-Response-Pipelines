@@ -59,6 +59,61 @@ def tokenize(text):
     return clean_tokens
 
 
+# Add custom Estimator
+class StartingVerbExtractor(BaseEstimator, TransformerMixin):
+
+    def starting_verb(self, text):
+        sentence_list = nltk.sent_tokenize(text)
+        for sentence in sentence_list:
+            pos_tags = nltk.pos_tag(tokenize(sentence))
+            if pos_tags:
+                first_word, first_tag = pos_tags[0]
+                if first_tag in ['VB', 'VBP'] or first_word == 'RT':
+                    return float(True)
+        return float(False)
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        X_tagged = pd.Series(X).apply(self.starting_verb)
+        return pd.DataFrame(X_tagged)
+
+
+# Define function to calculate the multi-label f-score
+def multi_label_fscore(y_true, y_pred, beta=1):
+    """Calculate individual weighted average fbeta score of each category and
+    geometric mean of weighted average fbeta score of each category
+    
+    Args:
+    y_true: dataframe, dataframe containing true labels i.e. Y_test
+    y_pred: ndarray, ndarray containing predicted labels i.e. Y_pred
+    beta: numeric, beta value
+       
+    Returns:
+    f_score_gmean: float, geometric mean of fbeta score for each category
+    """
+    
+    b = beta
+    f_score_dict = {}
+    score_list = []
+    
+    # Create dataframe y_pred_df from ndarray y_pred 
+    y_pred_df = pd.DataFrame(y_pred, columns=y_true.columns)
+
+    for column in y_true.columns:
+        score = round(fbeta_score(y_true[column], y_pred_df[column], beta, average='weighted'),4)
+        score_list.append(score)
+    f_score_dict['category'] = y_true.columns.tolist()
+    f_score_dict['f_score'] = score_list
+
+   
+    f_score_df = pd.DataFrame.from_dict(f_score_dict)
+
+    f_score_gmean = gmean(f_score_df['f_score'])
+
+    return f_score_gmean
+
 
 # load data
 engine = create_engine('sqlite:///../data/DisasterResponse.db')
