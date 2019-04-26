@@ -26,23 +26,23 @@ The aim of the project is to build a Natural Language Processing tool that categ
 The Project is divided in the following three components:
 
 1. ETL Pipeline - process_data.py, a data cleaning pipeline, which does the following:
- - Loads the messages and categories datasets
- - Merges the two datasets
- - Cleans the data
- - Stores it in a SQLite database
+   - Loads the messages and categories datasets
+   - Merges the two datasets
+   - Cleans the data
+   - Stores it in a SQLite database
 
 2. ML Pipeline - train_classifier.py, a machine learning pipeline, which does the following:
 
- - Loads data from the SQLite database
- - Splits the dataset into training and test sets
- - Builds a text processing and machine learning pipeline
- - Trains and tunes a model using GridSearchCV
- - Outputs results on the test set
- - Exports the final model as a pickle file
+   - Loads data from the SQLite database
+   -  Splits the dataset into training and test sets
+   - Builds a text processing and machine learning pipeline
+   - Trains and tunes a model using GridSearchCV
+   - Outputs results on the test set
+   - Exports the final model as a pickle file
 
 3. Flask Web App - run.py, a Python script which uses Flask, which does the following; 
- - Take in file paths for database and model and display the results
- - Add data visualizations using Plotly in the web app
+   - Take in file paths for database and model and display the results
+   - Add data visualizations using Plotly in the web app
 
 ## Installation<a name="installation"></a>
 
@@ -54,10 +54,10 @@ The Project is divided in the following three components:
 
 The following packages also need to be installed for nltk:
 
- - punkt
- - wordnet
- - averaged_perceptron_tagger
- - stopwords
+  - punkt
+  - wordnet
+  - averaged_perceptron_tagger
+  - stopwords
 
 ## File Descriptions<a name="files"></a>
 
