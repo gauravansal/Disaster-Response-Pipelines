@@ -68,6 +68,12 @@ def tokenize(text):
 
 # Add custom Estimator
 class StartingVerbExtractor(BaseEstimator, TransformerMixin):
+	"""
+    Starting Verb Extractor class
+    
+    This class extract the starting verb of a sentence,
+    creating a new feature for the ML classifier
+    """
 
     def starting_verb(self, text):
         sentence_list = nltk.sent_tokenize(text)
