@@ -64,8 +64,8 @@ def load_data(database_filepath):
     df = pd.read_sql_table('messages_categories',engine)
     X = df['message']
     Y = df.iloc[:,3:-2]
-    category_names = Y.columns[3:-2]
-    genre_names = Y.columns[-2:]
+    category_names = list(Y.columns[3:-2])
+    genre_names = list(Y.columns[-2:])
     return X, Y, category_names, genre_names
 
 
@@ -114,7 +114,8 @@ def tokenize(text):
 
 # Add custom Estimator
 class StartingVerbExtractor(BaseEstimator, TransformerMixin):
-    """Starting Verb Extractor class
+    """
+    Starting Verb Extractor class
     
     This class extract the starting verb of a sentence,
     creating a new feature for the ML classifier
@@ -233,7 +234,8 @@ def evaluate_model(model, X_test, Y_test, category_names):
     Evaluate Model function
     
     This function applies GridSearchCV object to a test set and prints out
-    model performance (accuracy and f1score)
+    model performance i.e. f1 score, precision and recall for the test set is outputted for each category.
+    Also, overall accuracy and overall f1 score of the model on the test set is printed out. 
     
     Arguments:
         model - Scikit GridSearchCV object
@@ -242,6 +244,13 @@ def evaluate_model(model, X_test, Y_test, category_names):
         category_names - label names (multi-output)
     """
     Y_pred = model.predict(X_test)
+
+    # Report the pipeline f1 score, precision and recall for each output category of the dataset
+    # by iterating through the columns and calling sklearn's classification_report on each column
+    for column in category_names:
+        print('------------------------------------------------------\n')
+        print('CATEGORY: {}\n'.format(column))
+        print(classification_report(Y_test[column],pd.DataFrame(Y_pred, columns=Y_test.columns)[column]))
 
     # Print overall accuracy of model on test set
     overall_accuracy = (Y_pred == Y_test).mean().mean()
