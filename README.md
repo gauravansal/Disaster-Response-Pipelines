@@ -77,15 +77,18 @@ There are three main foleders:
 
 ## Instructions<a name="instructions"></a>
 ### ***Run process_data.py***
- - Go to the directory 'data', run the following command:
-   `python process_data.py disaster_messages.csv disaster_categories.csv DisasterResponse.db`
+ - To run ETL pipeline that cleans data and stores it in a database
+ - Go to the project's root directory and run the following command:
+   `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
 
 ### ***Run train_classifier.py***
- - Go to the directory 'models', run the following command:
-   `python train_classifier.py DisasterResponse.db classifier.pkl`
+ - To run ML pipeline that trains classifier and saves it to the disk as a pickle file
+ - Go to the project's root directory and run the following command:
+   `python models/train_classifier.py models/DisasterResponse.db models/classifier.pkl`
 
 ### ***Run the web app***
- - Go to the directory 'app', run the following command:
+ - To run Flask web app over an API that takes input of new disaster message and provide classification results.
+ - Go to the app's directory(as html files are located in app directory only) and run the following command:
    `python run.py`
  - Go to http://0.0.0.0:3001/ to see the API and view the data visualizations
  - Input new disaster message and click 'Classify Message' to get the classification results
