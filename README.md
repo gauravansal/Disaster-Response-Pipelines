@@ -4,12 +4,13 @@
 
 1. [Project Overview](#overview)
 2. [Project Components](#components)
-2. [Installation](#installation)
-3. [File Descriptions](#files)
-4. [Instructions](#instructions)
-5. [Results](#results)
-6. [Screenshots](#screenshots)
-7. [Licensing, Authors, and Acknowledgements](#licensing)
+3. [Installation](#installation)
+4. [File Descriptions](#files)
+5. [Instructions](#instructions)
+6. [Results](#results)
+7. [Screenshots](#screenshots)
+8. [Notes on Class Imbalance](#class_imbalance)
+9. [Licensing, Authors, and Acknowledgements](#licensing)
 
 ## Project Overview<a name="overview"></a>
 
@@ -104,6 +105,16 @@ There are three main foleders:
 
 ***Screenshot 2: App Results Page***
 ![Screenshot 2](https://github.com/gauravansal/Disaster-Response-Pipelines/blob/master/screenshots/screenshot%20-%20go.png)
+
+
+## Notes on Class Imbalance<a name="class_imbalance"></a>
+
+The dataset included in this project is imbalanced, with very few positive examples for several message categories (i.e. some labels like water have few examples). In some cases, the proportion of positive examples is less than 5%, or even less than 1%. In such cases, the classifier accuracy can be very high (since it tends to predict that the message does not fall into these categories), and the classifier recall (i.e. the proportion of positive examples that were correctly labelled) can tend to be very low. As a result, overall f1 score of the classifier was also taken into account along with overall accuracy of the classifier.
+Refer below links:
+* [F1 Score](https://en.wikipedia.org/wiki/F1_score) - The F1 score is the harmonic average of the precision and recall, where an F1 score reaches its best value at 1 (perfect precision and recall) and worst at 0.
+* The F-score has been widely used in the natural language processing literature, such as the evaluation of [named entity recognition](https://en.wikipedia.org/wiki/Named_entity_recognition) and [word segmentation](https://en.wikipedia.org/wiki/Word_segmentation).
+* The F-score is often used in the field of information retrieval for measuring search, document classification, and query classification performance. Refer below link - 
+[On Understanding and Classifying Web Queries](https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.127.634)
 
 
 ## Licensing, Authors, and Acknowledgements<a name="licensing"></a>
